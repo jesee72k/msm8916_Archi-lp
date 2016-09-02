@@ -1447,3 +1447,21 @@ FORCE:
 # Declare the contents of the .PHONY variable as phony.  We keep that
 # information in a variable so we can use it in if_changed and friends.
 .PHONY: $(PHONY)
+
+	build/target/product/security/cm-devkey
+	endif
+  
+ # ArchiDroid
+	include $(BUILD_SYSTEM)/archidroid.mk
+ 
+ # Generate a file containing the keys that will be read by the
+ # recovery binary.
+  RECOVERY_INSTALL_OTA_KEYS := \
+ @@ -977,7 +980,9 @@ $(INSTALLED_RECOVERYIMAGE_TARGET): $(MKBOOTIMG) $(recovery_ramdisk) \
+	ifeq (true,$(PRODUCTS.$(INTERNAL_PRODUCT).PRODUCT_SUPPORTS_VERITY)) $(BOOT_SIGNER) /recovery $@ $(PRODUCTS.$(INTERNAL_PRODUCT).PRODUCT_VERITY_SIGNING_KEY).pk8 $(PRODUCTS.$(INTERNAL_PRODUCT).PRODUCT_VERITY_SIGNING_KEY).x509.pem $@
+ifneq ($(ARCHIDROID_IGNORE_RECOVERY_SIZE),true)
+  	$(hide) $(call assert-max-image-size,$@,$(BOARD_RECOVERYIMAGE_PARTITION_SIZE))
+  	endif
+  	@echo -e ${CL_CYN}"Made recovery image: $@"${CL_RST}
+  
+	endif	# BOARD_CUSTOM_BOOTIMG_MK
